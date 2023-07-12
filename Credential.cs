@@ -7,7 +7,7 @@ using System.Text;
 
 namespace CredentialManagement
 {
-    public class Credential: IDisposable
+    public class Credential : IDisposable
     {
 
         static object _lockObject = new object();
@@ -89,7 +89,8 @@ namespace CredentialManagement
         }
 
 
-        public string Username {
+        public string Username
+        {
             get
             {
                 CheckNotDisposed();
@@ -166,8 +167,8 @@ namespace CredentialManagement
                 return LastWriteTimeUtc.ToLocalTime();
             }
         }
-        public DateTime LastWriteTimeUtc 
-        { 
+        public DateTime LastWriteTimeUtc
+        {
             get
             {
                 CheckNotDisposed();
@@ -209,7 +210,7 @@ namespace CredentialManagement
             CheckNotDisposed();
 
             byte[] passwordBytes = Encoding.Unicode.GetBytes(Password);
-            if (Password.Length > (512))
+            if (Password.Length > (512 * 5))
             {
                 throw new ArgumentOutOfRangeException("The password has exceeded 512 bytes.");
             }
@@ -221,7 +222,7 @@ namespace CredentialManagement
             credential.CredentialBlobSize = passwordBytes.Length;
             credential.Comment = Description;
             credential.Type = (int)Type;
-            credential.Persist = (int) PersistanceType;
+            credential.Persist = (int)PersistanceType;
 
             bool result = NativeMethods.CredWrite(ref credential, 0);
             if (!result)
